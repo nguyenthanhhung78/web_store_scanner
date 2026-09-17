@@ -1,0 +1,230 @@
+[
+ {
+  "id": 100,
+  "name": "Thảm phòng tắm diatomite Durahome",
+  "slug": "sp-0",
+  "permalink": "https://nhabepviet.vn/san-pham/sp-0",
+  "sku": "WC-000",
+  "prices": {
+   "price": "35000000",
+   "regular_price": "42000000",
+   "sale_price": "35000000",
+   "currency_code": "VND",
+   "currency_minor_unit": 2,
+   "currency_symbol": "₫",
+   "currency_prefix": "",
+   "currency_suffix": "₫"
+  },
+  "is_in_stock": false,
+  "stock_quantity": 12,
+  "average_rating": "0",
+  "review_count": 0,
+  "categories": [
+   {
+    "id": 9,
+    "name": "Nhà bếp",
+    "slug": "nha-bep"
+   }
+  ],
+  "images": [
+   {
+    "id": 1,
+    "src": "https://nhabepviet.vn/wp-content/uploads/0.jpg"
+   }
+  ],
+  "short_description": "<p>Mô tả ngắn cho Thảm phòng tắm diatomite Durahome.</p>",
+  "variations": [
+   {
+    "id": 900
+   }
+  ]
+ },
+ {
+  "id": 101,
+  "name": "Thảm bếp chống trượt",
+  "slug": "sp-1",
+  "permalink": "https://nhabepviet.vn/san-pham/sp-1",
+  "sku": "WC-001",
+  "prices": {
+   "price": "36000000",
+   "regular_price": "42000000",
+   "sale_price": "36000000",
+   "currency_code": "VND",
+   "currency_minor_unit": 2,
+   "currency_symbol": "₫",
+   "currency_prefix": "",
+   "currency_suffix": "₫"
+  },
+  "is_in_stock": true,
+  "stock_quantity": null,
+  "average_rating": "4.5",
+  "review_count": 22,
+  "categories": [
+   {
+    "id": 9,
+    "name": "Nhà bếp",
+    "slug": "nha-bep"
+   }
+  ],
+  "images": [
+   {
+    "id": 1,
+    "src": "https://nhabepviet.vn/wp-content/uploads/1.jpg"
+   }
+  ],
+  "short_description": "<p>Mô tả ngắn cho Thảm bếp chống trượt.</p>",
+  "variations": []
+ },
+ {
+  "id": 102,
+  "name": "Hộp đựng gia vị 3 ngăn",
+  "slug": "sp-2",
+  "permalink": "https://nhabepviet.vn/san-pham/sp-2",
+  "sku": "WC-002",
+  "prices": {
+   "price": "37000000",
+   "regular_price": "42000000",
+   "sale_price": "37000000",
+   "currency_code": "VND",
+   "currency_minor_unit": 2,
+   "currency_symbol": "₫",
+   "currency_prefix": "",
+   "currency_suffix": "₫"
+  },
+  "is_in_stock": true,
+  "stock_quantity": 14,
+  "average_rating": "4.5",
+  "review_count": 23,
+  "categories": [
+   {
+    "id": 9,
+    "name": "Nhà bếp",
+    "slug": "nha-bep"
+   }
+  ],
+  "images": [
+   {
+    "id": 1,
+    "src": "https://nhabepviet.vn/wp-content/uploads/2.jpg"
+   }
+  ],
+  "short_description": "<p>Mô tả ngắn cho Hộp đựng gia vị 3 ngăn.</p>",
+  "variations": [
+   {
+    "id": 902
+   }
+  ]
+ },
+ {
+  "id": 103,
+  "name": "Giá treo khăn inox 304",
+  "slug": "sp-3",
+  "permalink": "https://nhabepviet.vn/san-pham/sp-3",
+  "sku": "WC-003",
+  "prices": {
+   "price": "38000000",
+   "regular_price": "42000000",
+   "sale_price": "38000000",
+   "currency_code": "VND",
+   "currency_minor_unit": 2,
+   "currency_symbol": "₫",
+   "currency_prefix": "",
+   "currency_suffix": "₫"
+  },
+  "is_in_stock": true,
+  "stock_quantity": null,
+  "average_rating": "0",
+  "review_count": 0,
+  "categories": [
+   {
+    "id": 9,
+    "name": "Nhà bếp",
+    "slug": "nha-bep"
+   }
+  ],
+  "images": [
+   {
+    "id": 1,
+    "src": "https://nhabepviet.vn/wp-content/uploads/3.jpg"
+   }
+  ],
+  "short_description": "<p>Mô tả ngắn cho Giá treo khăn inox 304.</p>",
+  "variations": []
+ },
+ {
+  "id": 104,
+  "name": "Thảm cửa sợi dừa",
+  "slug": "sp-4",
+  "permalink": "https://nhabepviet.vn/san-pham/sp-4",
+  "sku": "WC-004",
+  "prices": {
+   "price": "39000000",
+   "regular_price": "42000000",
+   "sale_price": "39000000",
+   "currency_code": "VND",
+   "currency_minor_unit": 2,
+   "currency_symbol": "₫",
+   "currency_prefix": "",
+   "currency_suffix": "₫"
+  },
+  "is_in_stock": false,
+  "stock_quantity": 16,
+  "average_rating": "4.5",
+  "review_count": 25,
+  "categories": [
+   {
+    "id": 9,
+    "name": "Nhà bếp",
+    "slug": "nha-bep"
+   }
+  ],
+  "images": [
+   {
+    "id": 1,
+    "src": "https://nhabepviet.vn/wp-content/uploads/4.jpg"
+   }
+  ],
+  "short_description": "<p>Mô tả ngắn cho Thảm cửa sợi dừa.</p>",
+  "variations": [
+   {
+    "id": 904
+   }
+  ]
+ },
+ {
+  "id": 105,
+  "name": "Khay để xà phòng đá",
+  "slug": "sp-5",
+  "permalink": "https://nhabepviet.vn/san-pham/sp-5",
+  "sku": "WC-005",
+  "prices": {
+   "price": "40000000",
+   "regular_price": "42000000",
+   "sale_price": "40000000",
+   "currency_code": "VND",
+   "currency_minor_unit": 2,
+   "currency_symbol": "₫",
+   "currency_prefix": "",
+   "currency_suffix": "₫"
+  },
+  "is_in_stock": true,
+  "stock_quantity": null,
+  "average_rating": "4.5",
+  "review_count": 26,
+  "categories": [
+   {
+    "id": 9,
+    "name": "Nhà bếp",
+    "slug": "nha-bep"
+   }
+  ],
+  "images": [
+   {
+    "id": 1,
+    "src": "https://nhabepviet.vn/wp-content/uploads/5.jpg"
+   }
+  ],
+  "short_description": "<p>Mô tả ngắn cho Khay để xà phòng đá.</p>",
+  "variations": []
+ }
+]

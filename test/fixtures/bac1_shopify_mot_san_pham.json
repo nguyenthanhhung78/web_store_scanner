@@ -1,0 +1,44 @@
+{
+ "product": {
+  "id": 6000000000,
+  "title": "Thảm phòng tắm diatomite Durahome",
+  "handle": "san-pham-0",
+  "vendor": "Durahome",
+  "product_type": "Nhà tắm",
+  "published_at": "2026-01-01T10:00:00+07:00",
+  "body_html": "<p>Thảm phòng tắm diatomite Durahome. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+  "images": [
+   {
+    "src": "https://cdn.shopify.com/s/files/1/main0.jpg"
+   }
+  ],
+  "variants": [
+   {
+    "id": 7000000000,
+    "title": "Xám",
+    "option1": "Xám",
+    "sku": "DH-000-XA",
+    "price": "259000.00",
+    "compare_at_price": "329000.00",
+    "available": false,
+    "grams": 800,
+    "featured_image": {
+     "src": "https://cdn.shopify.com/s/files/1/img0-0.jpg"
+    }
+   },
+   {
+    "id": 7000000001,
+    "title": "Trắng",
+    "option1": "Trắng",
+    "sku": "DH-000-TR",
+    "price": "279000.00",
+    "compare_at_price": "329000.00",
+    "available": true,
+    "grams": 800,
+    "featured_image": {
+     "src": "https://cdn.shopify.com/s/files/1/img0-1.jpg"
+    }
+   }
+  ]
+ }
+}

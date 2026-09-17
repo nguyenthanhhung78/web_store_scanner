@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<style>
+  body { font-family: 'Segoe UI', Roboto, Arial, sans-serif; font-size: 13px; margin: 0; padding: 12px; color: #202124; }
+  h2 { font-size: 15px; margin: 0 0 4px; }
+  p.phu { color: #5f6368; margin: 0 0 12px; font-size: 12px; }
+  label { display: block; font-weight: 600; margin: 10px 0 4px; }
+  input[type=text], textarea { width: 100%; box-sizing: border-box; padding: 7px; border: 1px solid #dadce0; border-radius: 4px; font-size: 13px; }
+  textarea { height: 90px; resize: vertical; }
+  button { background: #1a73e8; color: #fff; border: 0; border-radius: 4px; padding: 8px 14px; font-size: 13px; cursor: pointer; margin: 8px 6px 0 0; }
+  button.phu { background: #f1f3f4; color: #202124; }
+  button:disabled { opacity: .5; cursor: default; }
+  .khung { border: 1px solid #dadce0; border-radius: 6px; padding: 10px; margin-top: 12px; }
+  .tiendo { font-size: 12px; color: #5f6368; min-height: 32px; margin-top: 8px; white-space: pre-wrap; }
+  .kl { font-weight: 700; padding: 3px 8px; border-radius: 10px; display: inline-block; color: #fff; }
+  .CAO { background: #188038; } .TRUNG_BINH { background: #e37400; }
+  .THAP { background: #c5221f; } .KHONG_QUET_DUOC { background: #5f6368; }
+  .canhbao { background: #fef7e0; border: 1px solid #feefc3; padding: 8px; border-radius: 4px; font-size: 12px; margin-top: 12px; }
+  .canhbao ul { margin: 6px 0 0 16px; padding: 0; }
+  a { color: #1a73e8; }
+  .an { display: none; }
+  hr { border: 0; border-top: 1px solid #eee; margin: 14px 0; }
+</style>
+</head>
+<body>
+
+<h2>Quét cửa hàng</h2>
+<p class="phu">Dán một địa chỉ bất kỳ: trang chủ cửa hàng, trang danh mục, hay trang một sản phẩm.
+Công cụ tự dò xem đó là nền tảng nào rồi lấy được gì thì lấy — và luôn nói thật lấy được bao nhiêu.</p>
+
+<label for="url">Địa chỉ cần quét</label>
+<input type="text" id="url" placeholder="https://tencuahang.vn/collections/tham-phong-tam">
+<button id="nutQuet" onclick="quet()">Quét</button>
+<button class="phu" onclick="chayTiep()">Chạy tiếp</button>
+
+<div class="tiendo" id="tiendo"></div>
+
+<div class="khung an" id="ketqua"></div>
+
+<hr>
+<label for="nhieu">Dán nhiều link (mỗi dòng một địa chỉ)</label>
+<textarea id="nhieu" placeholder="https://a.vn/collections/tham&#10;https://b.vn/products/x&#10;https://c.vn"></textarea>
+<button class="phu" onclick="xepHang()">Xếp vào hàng đợi</button>
+<span id="hangdoi" class="phu"></span>
+
+<div class="canhbao">
+  <b>Không quét được (và công cụ sẽ không giả vờ quét được):</b>
+  <ul id="sanchan"><li>đang tải…</li></ul>
+  <div style="margin-top:6px">Với các sàn này, đường đi hợp lệ là API dành cho nhà bán / đối tác của chính sàn,
+  nhà cung cấp dữ liệu có giấy phép, hoặc xuất dữ liệu tay từ Seller Center.</div>
+</div>
+
+<script>
+var dangChay = false;
+
+function hienTienDo(s) { document.getElementById('tiendo').textContent = s; }
+
+function quet() {
+  var u = document.getElementById('url').value.trim();
+  if (!u) { hienTienDo('Chưa nhập địa chỉ.'); return; }
+  batDau('Đang quét ' + u + ' …');
+  google.script.run.withSuccessHandler(xong).withFailureHandler(loi).uiQuetMotLink(u);
+}
+
+function chayTiep() {
+  batDau('Đang chạy tiếp…');
+  google.script.run.withSuccessHandler(xong).withFailureHandler(loi).uiChayTiep();
+}
+
+function batDau(s) {
+  dangChay = true;
+  document.getElementById('nutQuet').disabled = true;
+  document.getElementById('ketqua').className = 'khung an';
+  hienTienDo(s);
+}
+
+function xong(kq) {
+  dangChay = false;
+  document.getElementById('nutQuet').disabled = false;
+  if (!kq) { hienTienDo('Không có phản hồi.'); return; }
+  if (kq.loi) { hienTienDo(kq.loi); return; }
+  var k = document.getElementById('ketqua');
+  k.className = 'khung';
+  if (!kq.xong) {
+    hienTienDo(kq.chiTiet || 'Đang chạy tiếp…');
+    k.innerHTML = '<b>Lần quét ' + esc(kq.maLanQuet) + ' chưa xong.</b><div class="phu">' + esc(kq.chiTiet || '') + '</div>';
+    return;
+  }
+  hienTienDo('');
+  k.innerHTML =
+    '<div><span class="kl ' + esc(kq.ketLuan) + '">' + esc(kq.ketLuan) + '</span></div>' +
+    '<p>' + esc(kq.tieuDe) + '</p>' +
+    '<div class="phu">' + esc(kq.chiTiet || '') + '</div>' +
+    '<p><b>Việc cần làm:</b> ' + esc(kq.viecCanLam || '') + '</p>' +
+    (kq.truongThieuNhieu ? '<div class="phu"><b>Trường trống nhiều:</b> ' + esc(kq.truongThieuNhieu) + '</div>' : '') +
+    '<div class="phu" style="margin-top:6px">' + esc(kq.lyDo || '') + '</div>' +
+    '<div style="margin-top:8px"><a id="lienket" href="#">Mở bảng SAN_PHAM</a> · mã lần quét: ' + esc(kq.maLanQuet) + '</div>';
+  google.script.run.withSuccessHandler(function (url) {
+    var a = document.getElementById('lienket');
+    if (a && url) { a.href = url; a.target = '_blank'; }
+  }).uiLinkBang();
+}
+
+function loi(e) {
+  dangChay = false;
+  document.getElementById('nutQuet').disabled = false;
+  hienTienDo('Lỗi: ' + (e && e.message ? e.message : e));
+}
+
+function xepHang() {
+  var t = document.getElementById('nhieu').value;
+  if (!t.trim()) { hienTienDo('Chưa dán link nào.'); return; }
+  google.script.run.withSuccessHandler(function (r) {
+    hienTienDo(r.thongBao);
+    demHangDoi();
+  }).withFailureHandler(loi).uiXepHang(t);
+}
+
+function demHangDoi() {
+  google.script.run.withSuccessHandler(function (r) {
+    if (!r) return;
+    var h = r.hangDoi || { cho: 0, xong: 0, loi: 0 };
+    document.getElementById('hangdoi').textContent =
+      ' Hàng đợi: ' + h.cho + ' chờ · ' + h.xong + ' xong · ' + h.loi + ' lỗi';
+    if (dangChay && r.tienDo && r.tienDo.ghiChu) hienTienDo(r.tienDo.ghiChu);
+    else if (!dangChay && r.dangDo) {
+      hienTienDo('Có lần quét dở: ' + r.dangDo.maLanQuet + ' (' + r.dangDo.soDaGhi + ' dòng). Bấm "Chạy tiếp".');
+    }
+  }).uiTienDo();
+}
+
+function esc(s) {
+  return String(s === undefined || s === null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+google.script.run.withSuccessHandler(function (ds) {
+  var ul = document.getElementById('sanchan');
+  ul.innerHTML = '';
+  (ds || []).forEach(function (s) {
+    var li = document.createElement('li');
+    li.innerHTML = '<b>' + esc(s.ten) + '</b> — ' + esc(s.lyDo);
+    ul.appendChild(li);
+  });
+}).uiSanKhongQuetDuoc();
+
+demHangDoi();
+setInterval(demHangDoi, 4000);
+</script>
+</body>
+</html>

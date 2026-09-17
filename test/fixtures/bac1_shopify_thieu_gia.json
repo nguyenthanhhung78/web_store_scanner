@@ -1,0 +1,424 @@
+{
+ "products": [
+  {
+   "id": 6000000000,
+   "title": "Thảm phòng tắm diatomite Durahome",
+   "handle": "san-pham-0",
+   "vendor": "Durahome",
+   "product_type": "Nhà tắm",
+   "published_at": "2026-01-01T10:00:00+07:00",
+   "body_html": "<p>Thảm phòng tắm diatomite Durahome. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main0.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000000,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-000-XA",
+     "price": "259000.00",
+     "compare_at_price": "329000.00",
+     "available": false,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img0-0.jpg"
+     }
+    },
+    {
+     "id": 7000000001,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-000-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img0-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000001,
+   "title": "Thảm bếp chống trượt",
+   "handle": "san-pham-1",
+   "vendor": "Durahome",
+   "product_type": "Nhà bếp",
+   "published_at": "2026-01-02T10:00:00+07:00",
+   "body_html": "<p>Thảm bếp chống trượt. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main1.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000010,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-001-XA",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img1-0.jpg"
+     }
+    },
+    {
+     "id": 7000000011,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-001-TR",
+     "price": "279000.00",
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img1-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000002,
+   "title": "Hộp đựng gia vị 3 ngăn",
+   "handle": "san-pham-2",
+   "vendor": "Durahome",
+   "product_type": "Nhà tắm",
+   "published_at": "2026-01-03T10:00:00+07:00",
+   "body_html": "<p>Hộp đựng gia vị 3 ngăn. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main2.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000020,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-002-XA",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img2-0.jpg"
+     }
+    },
+    {
+     "id": 7000000021,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-002-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img2-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000003,
+   "title": "Giá treo khăn inox 304",
+   "handle": "san-pham-3",
+   "vendor": "Durahome",
+   "product_type": "Nhà bếp",
+   "published_at": "2026-01-04T10:00:00+07:00",
+   "body_html": "<p>Giá treo khăn inox 304. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main3.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000030,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-003-XA",
+     "price": "259000.00",
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img3-0.jpg"
+     }
+    },
+    {
+     "id": 7000000031,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-003-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img3-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000004,
+   "title": "Thảm cửa sợi dừa",
+   "handle": "san-pham-4",
+   "vendor": "Durahome",
+   "product_type": "Nhà tắm",
+   "published_at": "2026-01-05T10:00:00+07:00",
+   "body_html": "<p>Thảm cửa sợi dừa. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main4.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000040,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-004-XA",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img4-0.jpg"
+     }
+    },
+    {
+     "id": 7000000041,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-004-TR",
+     "price": "279000.00",
+     "compare_at_price": "329000.00",
+     "available": false,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img4-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000005,
+   "title": "Khay để xà phòng đá",
+   "handle": "san-pham-5",
+   "vendor": "Durahome",
+   "product_type": "Nhà bếp",
+   "published_at": "2026-01-06T10:00:00+07:00",
+   "body_html": "<p>Khay để xà phòng đá. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main5.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000050,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-005-XA",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": false,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img5-0.jpg"
+     }
+    },
+    {
+     "id": 7000000051,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-005-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img5-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000006,
+   "title": "Bộ 2 thảm nhà tắm",
+   "handle": "san-pham-6",
+   "vendor": "Durahome",
+   "product_type": "Nhà tắm",
+   "published_at": "2026-01-07T10:00:00+07:00",
+   "body_html": "<p>Bộ 2 thảm nhà tắm. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main6.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000060,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-006-XA",
+     "price": "259000.00",
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img6-0.jpg"
+     }
+    },
+    {
+     "id": 7000000061,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-006-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img6-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000007,
+   "title": "Kệ góc nhà tắm",
+   "handle": "san-pham-7",
+   "vendor": "Durahome",
+   "product_type": "Nhà bếp",
+   "published_at": "2026-01-08T10:00:00+07:00",
+   "body_html": "<p>Kệ góc nhà tắm. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main7.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000070,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-007-XA",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img7-0.jpg"
+     }
+    },
+    {
+     "id": 7000000071,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-007-TR",
+     "price": "279000.00",
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img7-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000008,
+   "title": "Thảm lau chân siêu thấm",
+   "handle": "san-pham-8",
+   "vendor": "Durahome",
+   "product_type": "Nhà tắm",
+   "published_at": "2026-01-09T10:00:00+07:00",
+   "body_html": "<p>Thảm lau chân siêu thấm. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main8.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000080,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-008-XA",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img8-0.jpg"
+     }
+    },
+    {
+     "id": 7000000081,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-008-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img8-1.jpg"
+     }
+    }
+   ]
+  },
+  {
+   "id": 6000000009,
+   "title": "Móc dán tường chịu lực",
+   "handle": "san-pham-9",
+   "vendor": "Durahome",
+   "product_type": "Nhà bếp",
+   "published_at": "2026-01-01T10:00:00+07:00",
+   "body_html": "<p>Móc dán tường chịu lực. Chất liệu diatomite, khô nhanh, chống trượt.</p>",
+   "images": [
+    {
+     "src": "https://cdn.shopify.com/s/files/1/main9.jpg"
+    }
+   ],
+   "variants": [
+    {
+     "id": 7000000090,
+     "title": "Xám",
+     "option1": "Xám",
+     "sku": "DH-009-XA",
+     "price": "259000.00",
+     "compare_at_price": "329000.00",
+     "available": true,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img9-0.jpg"
+     }
+    },
+    {
+     "id": 7000000091,
+     "title": "Trắng",
+     "option1": "Trắng",
+     "sku": "DH-009-TR",
+     "price": null,
+     "compare_at_price": "329000.00",
+     "available": false,
+     "grams": 800,
+     "featured_image": {
+      "src": "https://cdn.shopify.com/s/files/1/img9-1.jpg"
+     }
+    }
+   ]
+  }
+ ]
+}
