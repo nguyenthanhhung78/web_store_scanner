@@ -46,14 +46,22 @@ rồi **nói thật** phần dữ liệu đó đáng tin tới đâu.
    | `10_GHI_BANG` | **nơi duy nhất ghi bảng** |
    | `11_QUET` | điều phối, lưu vị trí, chạy tiếp |
    | `12_THAY_DOI` | dựng bảng so sánh |
-   | `13_GIAO_DIEN` | phần máy chủ của bảng quét |
+   | `13_GIAO_DIEN` | phần máy chủ của thanh quét nhanh |
    | `14_TU_KIEM_TRA` | bảng tự kiểm tra |
+   | `15_TRUY_VAN` | lọc, sắp xếp, gom nhóm, thống kê |
+   | `16_BAO_CAO` | 5 loại báo cáo + lớp cảnh báo |
+   | `17_API_GIAO_DIEN` | các hàm bảng điều khiển gọi |
    | `BangQuet` | **tệp HTML** (bấm + → HTML), chép từ `src/BangQuet.html` |
+   | `Bang` | **tệp HTML** — trang bảng điều khiển |
+   | `Bang_CSS` | **tệp HTML** — màu sắc, kiểu chữ |
+   | `Bang_JS` | **tệp HTML** — phần chạy trong trình duyệt |
    | `appsscript.json` | chép đè nội dung từ `src/appsscript.json` |
 
 5. Chọn hàm `CHAN_DOAN` trên thanh công cụ rồi bấm ▶. Google sẽ hỏi quyền — chấp nhận.
    Kết quả in ra ở **Nhật ký thực thi**. Nếu dòng "Tự kiểm tra" báo đủ số mục đạt thì cài đặt xong.
-6. Quay lại Google Sheet, tải lại trang. Trên thanh menu sẽ có mục **Quét cửa hàng**.
+6. Quay lại Google Sheet, tải lại trang. Trên thanh menu sẽ có mục **Quét cửa hàng** →
+   **Mở bảng điều khiển**. Không cần triển khai ứng dụng web: bảng điều khiển mở thẳng
+   từ bảng tính.
 7. Mở bảng `CAI_DAT`, sửa dòng `user_agent`: thay `lien-he@durahome.vn` bằng **email liên hệ
    thật của bạn**. Đây là phép lịch sự tối thiểu: chủ website bị quét phải biết liên hệ với ai.
 
@@ -79,6 +87,58 @@ Quét xong, kết luận hiện ra kèm việc cần làm.
 
 **Dán nhiều link:** dán vào ô lớn (mỗi dòng một địa chỉ) → **Xếp vào hàng đợi** → bấm
 **Chạy tiếp** cho từng địa chỉ. Công cụ quét lần lượt, không quét song song.
+
+---
+
+## 3b. Bảng điều khiển — làm việc ngay trên giao diện
+
+Menu **Quét cửa hàng → Mở bảng điều khiển**. Có 4 thẻ:
+
+### Thẻ “Quét”
+Ô nhập link, nút **Quét**, ô dán nhiều link, và danh sách các sàn không quét được.
+
+### Thẻ “Dữ liệu” — lọc và xem
+Một hàng lọc duy nhất nằm trên cùng, áp dụng cho cả thẻ Dữ liệu lẫn thẻ Báo cáo:
+
+| Bộ lọc | Dùng khi |
+|---|---|
+| Cửa hàng / Thương hiệu / Danh mục | thu hẹp về đúng thứ đang cần so |
+| Kết luận lần quét | ví dụ chỉ lấy dòng từ lần quét `CAO` |
+| Kho | chỉ xem hàng còn bán |
+| Giá từ / đến | cắt bỏ phụ kiện rẻ tiền hoặc hàng cao cấp lạc loài |
+| Tìm trong tên / SKU | gõ “thảm”, “DH-001” |
+| **Chỉ lần quét mới nhất mỗi địa chỉ** | **bật sẵn.** Tắt đi thì bạn sẽ thấy cả lịch sử, và mỗi sản phẩm xuất hiện nhiều lần — mọi con số trung bình sẽ sai |
+| Chỉ dòng có giá | khi cần tính toán, không cần đếm |
+
+Bấm tiêu đề cột để sắp xếp. Ô nào nguồn không có sẽ ghi *trống* — không bao giờ ghi 0.
+**Tải CSV** xuất TOÀN BỘ dòng khớp bộ lọc (không phải chỉ trang đang xem).
+
+### Thẻ “Báo cáo” — 5 báo cáo dựng sẵn
+
+| Báo cáo | Trả lời câu hỏi |
+|---|---|
+| **Bậc thang giá theo nhóm** | “Thương hiệu / danh mục / cửa hàng này đang bán ở khoảng giá nào?” |
+| **Phân bố giá** | “Thị trường đang dồn ở mức giá nào?” |
+| **So sánh cửa hàng theo danh mục** | “Ai đang rẻ hơn ở nhóm hàng nào?” |
+| **Thay đổi giữa 2 lần quét** | “Tuần này ai đổi giá, ai hết hàng, ai gỡ sản phẩm?” |
+| **Chất lượng dữ liệu theo lần quét** | “Số liệu tôi đang nhìn đáng tin tới đâu?” |
+
+Mỗi báo cáo có: ô số tổng quan, **khối độ tin cậy**, danh sách cảnh báo, biểu đồ (nếu có)
+và bảng số liệu. Hai nút xuất:
+- **Ghi ra Google Sheet** — ghi vào thẻ `BAO_CAO`, kèm cả kết luận tin cậy và cảnh báo.
+  Thẻ này được **dựng lại** mỗi lần xuất, đừng sửa tay vào đó.
+- **Tải CSV** — tệp CSV mở được bằng Excel, dòng đầu là câu kết luận tin cậy.
+
+### Thẻ “Lần quét”
+Sổ tin cậy: mỗi lần quét một dòng. Bấm vào dòng để xem đầy đủ lý do.
+
+### Quy tắc quan trọng nhất của giao diện
+
+> **Lát cắt bạn đang xem chỉ đáng tin bằng lần quét TỆ NHẤT góp dữ liệu vào đó.**
+
+Trộn 2 lần quét `CAO` với 1 lần quét `THAP` thì cả bảng hiện `THAP`. Đó không phải lỗi —
+đó là sự thật về dữ liệu bạn đang nhìn. Muốn lên lại `CAO` thì **lọc bỏ nguồn `THAP`**
+(bộ lọc “Kết luận lần quét”), chứ đừng nhắm mắt cho qua.
 
 ---
 
@@ -231,7 +291,8 @@ thập phân theo đúng hợp đồng của API. Hai bộ đọc tách bạch, 
 ## 11. Kiểm thử (cho người bảo trì)
 
 ```bash
-npm test          # 192 mục, không gọi mạng một lần nào
+npm test          # 292 mục, không gọi mạng một lần nào
+npm run xem-truoc # dựng xem_truoc.html: xem giao diện bằng trình duyệt thường, không cần Google
 ```
 
 Trong Apps Script, chạy `CHAN_DOAN` để kiểm tra nhanh ngay trên Google: nó chạy lại bảng số
@@ -239,6 +300,8 @@ tiếng Việt và bảng phân loại URL, kiểm tra các bảng và cài đ�
 
 **Nếu sửa `08_KET_LUAN.js` thì bắt buộc chạy lại `test/04_ket_luan.test.js` và
 `test/05_dot_bien.test.js`** trước khi dùng.
+**Nếu sửa giao diện** thì chạy `npm run xem-truoc` rồi mở tệp bằng trình duyệt — nhanh hơn
+nhiều so với dán lại vào Apps Script để thử.
 
 ---
 

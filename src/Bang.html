@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bảng điều khiển quét cửa hàng</title>
+  <?!= napHtml('Bang_CSS') ?>
+</head>
+<body>
+
+<div class="dau">
+  <h1>Quét cửa hàng</h1>
+  <div class="the-tab" id="thanhTab">
+    <button data-tab="quet" class="chon">Quét</button>
+    <button data-tab="dulieu">Dữ liệu</button>
+    <button data-tab="baocao">Báo cáo</button>
+    <button data-tab="lanquet">Lần quét</button>
+  </div>
+  <div class="day"></div>
+  <span class="trang-thai" id="trangThaiChung">Đang tải…</span>
+  <button class="nut phu" id="nutSang" title="Đổi nền sáng / tối">◐</button>
+</div>
+
+<!-- Bộ lọc dùng chung cho tab Dữ liệu và tab Báo cáo: chỉ có MỘT hàng lọc trong cả ứng dụng -->
+<div class="the an" id="khungLoc">
+  <div class="hang">
+    <div class="cot-doc"><label class="nhan">Cửa hàng</label><div id="locTenMien"></div></div>
+    <div class="cot-doc"><label class="nhan">Thương hiệu</label><div id="locThuongHieu"></div></div>
+    <div class="cot-doc"><label class="nhan">Danh mục</label><div id="locDanhMuc"></div></div>
+    <div class="cot-doc"><label class="nhan">Kết luận lần quét</label><div id="locKetLuan"></div></div>
+    <div class="cot-doc"><label class="nhan">Kho</label>
+      <select id="locConHang">
+        <option value="">Tất cả</option>
+        <option value="CON">Còn hàng</option>
+        <option value="HET">Hết hàng</option>
+      </select>
+    </div>
+    <div class="cot-doc"><label class="nhan">Giá từ</label><input type="number" id="locGiaTu" style="width:110px" placeholder="—"></div>
+    <div class="cot-doc"><label class="nhan">Giá đến</label><input type="number" id="locGiaDen" style="width:110px" placeholder="—"></div>
+    <div class="cot-doc"><label class="nhan">Tìm trong tên / SKU</label><input type="text" id="locTuKhoa" style="width:190px" placeholder="thảm, DH-001…"></div>
+    <div class="cot-doc" style="gap:6px">
+      <label class="nhan" style="display:flex;gap:6px;align-items:center;font-weight:500">
+        <input type="checkbox" id="locMoiNhat" checked> Chỉ lần quét mới nhất mỗi địa chỉ</label>
+      <label class="nhan" style="display:flex;gap:6px;align-items:center;font-weight:500">
+        <input type="checkbox" id="locCoGia"> Chỉ dòng có giá</label>
+    </div>
+    <div class="giua">
+      <button class="nut" id="nutLoc">Áp dụng</button>
+      <button class="nut phu" id="nutXoaLoc">Xoá lọc</button>
+    </div>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------------------ QUÉT -->
+<div id="tp-quet" class="than">
+  <div class="the">
+    <h2>Quét một địa chỉ</h2>
+    <p class="phu">Dán trang chủ cửa hàng, trang danh mục, hay trang một sản phẩm. Công cụ tự dò nền tảng lúc chạy.</p>
+    <div class="hang" style="margin-top:10px">
+      <input type="text" id="oUrl" style="flex:1;min-width:280px" placeholder="https://tencuahang.vn/collections/tham-phong-tam">
+      <button class="nut" id="nutQuet">Quét</button>
+      <button class="nut phu" id="nutChayTiep">Chạy tiếp</button>
+    </div>
+    <div class="trang-thai" id="tienDoQuet" style="margin-top:8px"></div>
+    <div id="ketQuaQuet"></div>
+  </div>
+
+  <div class="the">
+    <h2>Dán nhiều link</h2>
+    <p class="phu">Mỗi dòng một địa chỉ. Công cụ xếp hàng rồi quét lần lượt — bấm “Chạy tiếp” cho từng địa chỉ.</p>
+    <textarea id="oNhieuUrl" placeholder="https://a.vn/collections/tham&#10;https://b.vn/products/x&#10;https://c.vn"></textarea>
+    <div class="giua" style="margin-top:8px">
+      <button class="nut phu" id="nutXepHang">Xếp vào hàng đợi</button>
+      <span class="phu" id="soHangDoi"></span>
+    </div>
+  </div>
+
+  <div class="the">
+    <h2>Không quét được</h2>
+    <p class="phu">Công cụ trả lời ngay mà không gọi mạng, và chỉ ra đường đi hợp lệ. Nó không giả vờ quét được.</p>
+    <div id="dsSanChan" style="margin-top:8px"></div>
+  </div>
+</div>
+
+<!-- --------------------------------------------------------------- DỮ LIỆU -->
+<div id="tp-dulieu" class="than an">
+  <div id="neoLocDuLieu"></div>
+  <div class="the">
+    <div class="o-so" id="oSoDuLieu"></div>
+    <div id="tinCayDuLieu" style="margin-top:10px"></div>
+  </div>
+  <div class="the">
+    <div class="giua" style="margin-bottom:10px">
+      <h2 id="tieuDeDuLieu">Dòng sản phẩm</h2>
+      <div class="day"></div>
+      <span class="phu" id="thongTinTrang"></span>
+      <button class="nut phu" id="nutTruoc">‹ Trước</button>
+      <button class="nut phu" id="nutSau">Sau ›</button>
+      <button class="nut phu" id="nutCsvDuLieu">Tải CSV</button>
+      <a class="nut phu" id="nutMoSheet" href="#" target="_blank" style="text-decoration:none;display:inline-block">Mở Google Sheet</a>
+    </div>
+    <div class="khung-bang" id="khungBangDuLieu"></div>
+  </div>
+</div>
+
+<!-- --------------------------------------------------------------- BÁO CÁO -->
+<div id="tp-baocao" class="than an">
+  <div id="neoLocBaoCao"></div>
+  <div class="the">
+    <div class="hang">
+      <div class="cot-doc"><label class="nhan">Loại báo cáo</label><select id="chonLoaiBaoCao" style="min-width:280px"></select></div>
+      <div class="cot-doc" id="khungThamSo"></div>
+      <div class="giua"><button class="nut" id="nutDungBaoCao">Dựng báo cáo</button></div>
+    </div>
+    <p class="phu" id="moTaLoaiBaoCao" style="margin-top:8px"></p>
+  </div>
+  <div id="ketQuaBaoCao"></div>
+</div>
+
+<!-- -------------------------------------------------------------- LẦN QUÉT -->
+<div id="tp-lanquet" class="than an">
+  <div class="the">
+    <h2>Sổ tin cậy — mỗi lần quét một dòng</h2>
+    <p class="phu">Đây là bảng cần đọc khi nghi ngờ số liệu. Bấm vào một dòng để xem lý do đầy đủ.</p>
+    <div class="khung-bang" id="khungBangLanQuet" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<div class="chu-thich" id="chuThich"></div>
+
+<?!= napHtml('Bang_JS') ?>
+</body>
+</html>

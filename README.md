@@ -8,7 +8,8 @@ mức độ đáng tin của dữ liệu đó.
 - 🕳 **[DIEM-MU.md](DIEM-MU.md)** — những chỗ công cụ nói không đủ. Đọc trước khi ra quyết định giá.
 
 ```bash
-npm test     # 192 mục kiểm thử, không gọi mạng lần nào
+npm test          # 292 mục kiểm thử, không gọi mạng lần nào
+npm run xem-truoc # dựng xem_truoc.html để xem giao diện bằng trình duyệt thường
 ```
 
 ---
@@ -22,6 +23,9 @@ order. Two boundaries are load-bearing and enforced by `test/08_kien_truc.test.j
   and returns objects. When `UrlFetchApp` is replaced, nothing else changes.
 - **`src/10_GHI_BANG.js` is the only file that writes to the sheet.** One batch, one
   `setValues()`. No `appendRow` anywhere.
+- **A result is never more trustworthy than the weakest scan feeding it.**
+  `tomTatTinCay()` propagates the worst verdict into every query and every report, and
+  `canhBaoDuLieu()` names what would make the numbers wrong. Both are enforced by tests.
 
 | File | Role |
 |---|---|
@@ -40,6 +44,11 @@ order. Two boundaries are load-bearing and enforced by `test/08_kien_truc.test.j
 | `src/12_THAY_DOI.js` | derived diff tab |
 | `src/13_GIAO_DIEN.js` | sidebar/web-app server side |
 | `src/14_TU_KIEM_TRA.js` | test tables shared by the Node suite and the in-editor self test |
-| `src/BangQuet.html` | sidebar UI (Vietnamese) |
+| `src/15_TRUY_VAN.js` | query engine: filter, sort, group, describe, trust propagation |
+| `src/16_BAO_CAO.js` | five report builders + the warning layer |
+| `src/17_API_GIAO_DIEN.js` | the functions the dashboard calls |
+| `src/BangQuet.html` | quick-scan sidebar (Vietnamese) |
+| `src/Bang*.html` | the dashboard: page, stylesheet, client script |
+| `tools/xem_truoc.js` | renders the dashboard to a plain HTML file for local inspection |
 
 All operator-facing strings are Vietnamese; code and comments are English.

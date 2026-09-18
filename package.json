@@ -4,7 +4,8 @@
   "description": "Ad-hoc store scanner for Google Apps Script — paste any store URL, get product rows plus an honest scan verdict.",
   "private": true,
   "scripts": {
-    "test": "node test/run.js"
+    "test": "node test/run.js",
+    "xem-truoc": "node tools/xem_truoc.js"
   },
   "license": "UNLICENSED"
 }

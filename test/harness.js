@@ -26,6 +26,8 @@ function taoSheet(ten, id, nhatKyGhi) {
     getName: () => ten,
     getSheetId: () => id,
     setFrozenRows: () => sheet,
+    clear() { du.length = 0; return sheet; },
+    clearContents() { du.length = 0; return sheet; },
     getLastRow() {
       let last = 0;
       for (let i = 0; i < du.length; i++) {

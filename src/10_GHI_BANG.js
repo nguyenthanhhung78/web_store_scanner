@@ -142,6 +142,35 @@ function catLyDo(s) {
   return t.length > 4000 ? t.substring(0, 4000) + '…' : t;
 }
 
+/**
+ * Derived tabs (THAY_DOI, BAO_CAO) are rebuilt, not appended: they are disposable views
+ * over the snapshots, so stacking yesterday's copy under today's would just create a
+ * second, wrong source of truth. SAN_PHAM and LAN_QUET remain strictly append-only.
+ *
+ * Takes a ragged 2-D array and pads it to the widest row.
+ * @return {number} rows written
+ */
+function ghiDeBang(tenBang, loHang) {
+  var rong = 1;
+  for (var i = 0; i < loHang.length; i++) rong = Math.max(rong, loHang[i].length);
+  var ss = layBangTinh();
+  var b = ss.getSheetByName(tenBang);
+  if (!b) b = ss.insertSheet(tenBang);
+  else b.clear();
+  if (loHang.length === 0) return 0;
+  var sach = [];
+  for (var j = 0; j < loHang.length; j++) {
+    var d = [];
+    for (var k = 0; k < rong; k++) {
+      var v = loHang[j][k];
+      d.push(antoanChoO(v === undefined || v === null ? '' : v));
+    }
+    sach.push(d);
+  }
+  b.getRange(1, 1, sach.length, rong).setValues(sach);
+  return sach.length;
+}
+
 /* ------------------------------------------------------------------ CAI_DAT */
 
 function docCaiDatMacDinh() {

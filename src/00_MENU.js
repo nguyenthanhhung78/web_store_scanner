@@ -4,7 +4,8 @@
  * Bốn hàm đầu tiên dưới đây không cần tham số: chọn tên hàm trên thanh công cụ của
  * trình soạn thảo Apps Script rồi bấm ▶ là chạy được.
  *
- *   MO_BANG_QUET()          — mở bảng điều khiển (ô nhập link + nút Quét)
+ *   MO_BANG_DIEU_KHIEN()    — mở bảng điều khiển đầy đủ: quét, lọc dữ liệu, dựng báo cáo
+ *   MO_BANG_QUET()          — mở thanh quét nhanh ở cạnh bảng tính
  *   QUET_MOT_LINK()         — quét một link ngay
  *   TIEP_TUC_QUET()         — chạy tiếp lần quét bị ngắt giữa chừng (trigger cũng gọi hàm này)
  *   CHAN_DOAN()             — tự kiểm tra: bảng, cài đặt, bộ đọc số, phân loại URL
@@ -14,7 +15,28 @@
  * trình soạn thảo hoặc từ trigger.
  */
 
-/** Mở bảng quét (thanh bên). Chạy được cả khi không có giao diện. */
+/**
+ * Mở BẢNG ĐIỀU KHIỂN đầy đủ (quét + lọc dữ liệu + báo cáo) dưới dạng hộp thoại.
+ * Không cần triển khai ứng dụng web: mở thẳng từ bảng tính là chạy.
+ */
+function MO_BANG_DIEU_KHIEN() {
+  taoCacBangNeuThieu();
+  try {
+    var html = HtmlService.createTemplateFromFile('Bang')
+      .evaluate()
+      .setWidth(1600)
+      .setHeight(900);
+    SpreadsheetApp.getUi().showModalDialog(html, 'Bảng điều khiển quét cửa hàng');
+    return 'Đã mở bảng điều khiển.';
+  } catch (e) {
+    var tb = 'Không mở được hộp thoại (đang chạy từ trình soạn thảo hoặc từ trigger). ' +
+             'Hãy mở Google Sheet rồi dùng menu "Quét cửa hàng → Mở bảng điều khiển".';
+    Logger.log(tb + ' Chi tiết: ' + (e && e.message ? e.message : e));
+    return tb;
+  }
+}
+
+/** Mở thanh quét nhanh ở cạnh bảng tính. Chạy được cả khi không có giao diện. */
 function MO_BANG_QUET() {
   taoCacBangNeuThieu();
   try {

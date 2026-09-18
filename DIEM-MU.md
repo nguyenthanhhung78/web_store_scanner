@@ -120,12 +120,43 @@ kết luận là `CAO`. Kết luận giúp bạn biết *mức độ cần nghi 
 
 ---
 
+## H. Điểm mù của bảng điều khiển và báo cáo
+
+36. **Kết luận tin cậy lan theo nguyên tắc “tệ nhất thắng”.** Một lần quét `THAP` lọt vào
+    lát cắt là cả bảng thành `THAP`, dù 95% dòng đến từ nguồn `CAO`. Điều này đúng về mặt
+    logic nhưng **tạo áp lực lọc bỏ nguồn xấu chỉ để nhìn thấy chữ CAO**. Nếu bạn thấy
+    mình đang làm vậy, hãy dừng lại và hỏi: bỏ nguồn đó ra thì bảng còn trả lời được câu
+    hỏi ban đầu không?
+37. **Báo cáo không kiểm tra hai cửa hàng có bán cùng thứ hay không.** “Danh mục” là do
+    chính cửa hàng đặt tên. “Thảm phòng tắm” của A có thể gồm cả thảm chùi chân ngoài
+    trời, của B thì không. Bảng so sánh vẫn cho ra một con số trung vị trông rất gọn gàng.
+38. **Trung vị của nhóm dưới 5 sản phẩm gần như vô nghĩa.** Công cụ có cảnh báo, nhưng
+    con số vẫn hiện ra và vẫn xuất được sang slide.
+39. **Chỉ có 5 loại báo cáo cố định.** Không có chỗ tự viết công thức, không có bảng chéo
+    tuỳ ý. Cần thứ khác thì xuất CSV rồi làm trong Sheet.
+40. **Mỗi lần bấm “Áp dụng” là đọc lại toàn bộ bảng `SAN_PHAM`.** Khoảng 1–3 giây ở mức
+    10.000 dòng, chậm dần sau đó. Trên 30.000 dòng thì nên tách bảng tính theo quý.
+41. **Bảng chỉ hiện tối đa 3.000 dòng mỗi lần trả về**, nhưng mọi con số thống kê được
+    tính trên TOÀN BỘ dòng khớp. Con số và bảng có thể “không khớp mắt” — con số mới đúng.
+42. **Thẻ `BAO_CAO` bị dựng lại mỗi lần xuất.** Sửa tay vào đó là mất khi xuất lần sau.
+    Muốn giữ thì sao chép sang thẻ khác.
+43. **Bộ lọc “Chỉ lần quét mới nhất mỗi địa chỉ” bật sẵn.** Tắt nó đi mà không để ý thì mỗi
+    sản phẩm sẽ xuất hiện một lần cho mỗi lần quét, và mọi trung bình đều sai — theo hướng
+    khó phát hiện, vì bảng vẫn trông bình thường.
+44. **Hộp thoại bảng điều khiển bị giới hạn bởi cửa sổ trình duyệt.** Màn hình nhỏ thì bảng
+    phải cuộn ngang. Muốn rộng hơn thì triển khai ứng dụng web (`doGet`) và mở ở tab riêng.
+45. **Biểu đồ luôn bắt đầu từ 0.** Khoảng giá 500k–520k vì thế trông gần như nhau. Đây là
+    lựa chọn có chủ ý (cắt trục làm chênh lệch trông to hơn thực tế), nhưng nó khiến các
+    khác biệt nhỏ khó thấy — hãy đọc cột trung vị trong bảng thay vì ước lượng bằng mắt.
+
+---
+
 ## G. Những gì cố tình KHÔNG làm
 
-32. Không đăng nhập, không vượt tường phí, không giải thử thách chống bot, không đổi
+46. Không đăng nhập, không vượt tường phí, không giải thử thách chống bot, không đổi
     User-Agent để thử lại, không gọi API nội bộ của sàn, không dùng proxy.
-33. Không thu thập dữ liệu cá nhân: không tên người đánh giá, không nội dung đánh giá, không
+47. Không thu thập dữ liệu cá nhân: không tên người đánh giá, không nội dung đánh giá, không
     số điện thoại, không địa chỉ. Chỉ lấy điểm trung bình và số lượt — là số tổng hợp.
-34. Không quét song song nhiều địa chỉ: hàng đợi chạy lần lượt, để giữ độ trễ lịch sự.
-35. Không tự sửa dữ liệu "trông sai". Giá 3,5 VND được ghi kèm cảnh báo, không bị nhân lên
+48. Không quét song song nhiều địa chỉ: hàng đợi chạy lần lượt, để giữ độ trễ lịch sự.
+49. Không tự sửa dữ liệu "trông sai". Giá 3,5 VND được ghi kèm cảnh báo, không bị nhân lên
     1.000 lần.

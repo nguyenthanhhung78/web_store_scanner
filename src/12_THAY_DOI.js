@@ -98,8 +98,8 @@ function taoBangThayDoi(nguonUrl) {
   var lo = thayDoi.map(function (t) {
     return COT_THAY_DOI.map(function (c) { return t[c] === undefined ? '' : t[c]; });
   });
-  if (lo.length) ghiLo(TEN_BANG.THAY_DOI, lo, COT_THAY_DOI);
-  else layHoacTaoBang(TEN_BANG.THAY_DOI, COT_THAY_DOI);
+  // Derived tab: rebuilt every time, so it can never drift from the snapshots it describes.
+  ghiDeBang(TEN_BANG.THAY_DOI, [COT_THAY_DOI].concat(lo));
   return {
     ok: true,
     so: lo.length,

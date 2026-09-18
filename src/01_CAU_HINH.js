@@ -9,6 +9,7 @@ var TEN_BANG = {
   LAN_QUET: 'LAN_QUET',
   CAI_DAT: 'CAI_DAT',
   THAY_DOI: 'THAY_DOI',
+  BAO_CAO: 'BAO_CAO',
   HANG_DOI: 'HANG_DOI'
 };
 

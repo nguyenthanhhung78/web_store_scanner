@@ -3,11 +3,14 @@
  * Every string that reaches the operator is Vietnamese.
  */
 
-/** Web app entry point. Deploy as "Ứng dụng web" if you want a full-page UI. */
+/**
+ * Web app entry point — the full dashboard. Deploying is OPTIONAL: the same UI opens as a
+ * dialog from the spreadsheet menu (MO_BANG_DIEU_KHIEN), which needs no deployment at all.
+ */
 function doGet() {
-  return HtmlService.createTemplateFromFile('BangQuet')
+  return HtmlService.createTemplateFromFile('Bang')
     .evaluate()
-    .setTitle('Quét cửa hàng — Durahome')
+    .setTitle('Bảng điều khiển quét cửa hàng')
     .addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 
@@ -20,7 +23,8 @@ function onOpen() {
   try {
     SpreadsheetApp.getUi()
       .createMenu('Quét cửa hàng')
-      .addItem('Mở bảng quét', 'MO_BANG_QUET')
+      .addItem('Mở bảng điều khiển', 'MO_BANG_DIEU_KHIEN')
+      .addItem('Mở thanh quét nhanh', 'MO_BANG_QUET')
       .addItem('Quét một link', 'QUET_MOT_LINK')
       .addItem('Chạy tiếp lần quét đang dở', 'TIEP_TUC_QUET')
       .addSeparator()
