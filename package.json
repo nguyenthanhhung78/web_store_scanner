@@ -5,7 +5,11 @@
   "private": true,
   "scripts": {
     "test": "node test/run.js",
-    "xem-truoc": "node tools/xem_truoc.js"
+    "xem-truoc": "node tools/xem_truoc.js",
+    "dong-goi": "node tools/dong_goi.js"
   },
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
 }

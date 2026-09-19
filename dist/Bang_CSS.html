@@ -1,0 +1,192 @@
+<style>
+/* Design tokens. Dark mode is a selected set of steps for the dark surface, not an
+   automatic inversion. Declared under both the OS query and the data-theme scope so a
+   manual toggle wins either way. */
+:root {
+  color-scheme: light;
+  --nen-trang:      #f9f9f7;
+  --nen-the:        #fcfcfb;
+  --muc-chinh:      #0b0b0b;
+  --muc-phu:        #52514e;
+  --muc-mo:         #898781;
+  --duong-luoi:     #e1e0d9;
+  --duong-truc:     #c3c2b7;
+  --vien:           rgba(11,11,11,0.10);
+  --nen-hover:      rgba(11,11,11,0.04);
+  --chuoi-nhat:     #86b6ef;   /* range track  */
+  --chuoi-dam:      #2a78d6;   /* median / bar */
+  --tt-tot:         #0ca30c;
+  --tt-nhac:        #fab219;
+  --tt-nang:        #ec835a;
+  --tt-nguy:        #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --nen-trang:  #0d0d0d;
+    --nen-the:    #1a1a19;
+    --muc-chinh:  #ffffff;
+    --muc-phu:    #c3c2b7;
+    --muc-mo:     #898781;
+    --duong-luoi: #2c2c2a;
+    --duong-truc: #383835;
+    --vien:       rgba(255,255,255,0.10);
+    --nen-hover:  rgba(255,255,255,0.06);
+    --chuoi-nhat: #184f95;
+    --chuoi-dam:  #3987e5;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --nen-trang:  #0d0d0d;
+  --nen-the:    #1a1a19;
+  --muc-chinh:  #ffffff;
+  --muc-phu:    #c3c2b7;
+  --muc-mo:     #898781;
+  --duong-luoi: #2c2c2a;
+  --duong-truc: #383835;
+  --vien:       rgba(255,255,255,0.10);
+  --nen-hover:  rgba(255,255,255,0.06);
+  --chuoi-nhat: #184f95;
+  --chuoi-dam:  #3987e5;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0;
+  background: var(--nen-trang);
+  color: var(--muc-chinh);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px; line-height: 1.5;
+}
+h1 { font-size: 16px; margin: 0; font-weight: 650; }
+h2 { font-size: 14px; margin: 0 0 2px; font-weight: 650; }
+p.phu { color: var(--muc-phu); margin: 0; font-size: 12px; }
+
+/* ---------------------------------------------------------------- layout */
+.dau { display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+       border-bottom: 1px solid var(--vien); background: var(--nen-the); position: sticky; top: 0; z-index: 20; }
+.the { background: var(--nen-the); border: 1px solid var(--vien); border-radius: 8px; padding: 14px; margin: 12px 16px; }
+.than { padding-bottom: 40px; }
+.hang { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+.cot-doc { display: flex; flex-direction: column; gap: 3px; }
+.giua { display: flex; align-items: center; gap: 8px; }
+.day { flex: 1; }
+
+/* ------------------------------------------------------------------ tabs */
+.the-tab { display: flex; gap: 2px; }
+.the-tab button {
+  background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muc-phu);
+  padding: 8px 12px; font-size: 13px; cursor: pointer; border-radius: 4px 4px 0 0; font-family: inherit;
+}
+.the-tab button:hover { background: var(--nen-hover); }
+.the-tab button.chon { color: var(--muc-chinh); border-bottom-color: var(--chuoi-dam); font-weight: 600; }
+
+/* --------------------------------------------------------------- controls */
+label.nhan { font-size: 11px; color: var(--muc-phu); font-weight: 600; }
+input[type=text], input[type=number], select, textarea {
+  font-family: inherit; font-size: 13px; padding: 6px 8px; border-radius: 6px;
+  border: 1px solid var(--duong-truc); background: var(--nen-the); color: var(--muc-chinh);
+}
+input[type=text]:focus, input[type=number]:focus, select:focus { outline: 2px solid var(--chuoi-dam); outline-offset: -1px; }
+textarea { width: 100%; height: 76px; resize: vertical; }
+button.nut {
+  font-family: inherit; font-size: 13px; padding: 7px 13px; border-radius: 6px; cursor: pointer;
+  background: var(--chuoi-dam); color: #fff; border: 1px solid transparent; font-weight: 600;
+}
+button.nut.phu { background: var(--nen-the); color: var(--muc-chinh); border-color: var(--duong-truc); font-weight: 500; }
+button.nut:disabled { opacity: .5; cursor: default; }
+button.nut:hover:not(:disabled) { filter: brightness(1.08); }
+
+/* multi-select as a checkbox panel: a non-technical team can see what is selected */
+.chon-nhieu { position: relative; }
+.chon-nhieu > button {
+  font-family: inherit; font-size: 13px; padding: 6px 8px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--duong-truc); background: var(--nen-the); color: var(--muc-chinh);
+  min-width: 132px; text-align: left; display: flex; justify-content: space-between; gap: 8px;
+}
+.chon-nhieu .bang-chon {
+  display: none; position: absolute; z-index: 40; top: 100%; left: 0; margin-top: 4px; width: 260px;
+  max-height: 280px; overflow: auto; background: var(--nen-the); border: 1px solid var(--duong-truc);
+  border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.14); padding: 6px;
+}
+.chon-nhieu.mo .bang-chon { display: block; }
+.chon-nhieu .bang-chon label {
+  display: flex; gap: 8px; align-items: center; padding: 5px 6px; border-radius: 4px; cursor: pointer; font-size: 12px;
+}
+.chon-nhieu .bang-chon label:hover { background: var(--nen-hover); }
+.chon-nhieu .bang-chon .dem { margin-left: auto; color: var(--muc-mo); font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------ stat tiles */
+.o-so { display: flex; flex-wrap: wrap; gap: 8px; }
+.o-so .o {
+  background: var(--nen-the); border: 1px solid var(--vien); border-radius: 8px;
+  padding: 10px 14px; min-width: 132px; flex: 1;
+}
+.o-so .o .nhan { font-size: 11px; color: var(--muc-phu); text-transform: uppercase; letter-spacing: .3px; }
+.o-so .o .so { font-size: 22px; font-weight: 650; line-height: 1.25; }  /* proportional figures on purpose */
+.o-so .o .phu { font-size: 11px; color: var(--muc-mo); }
+
+/* ---------------------------------------------------------------- badges */
+.huy-hieu { display: inline-flex; align-items: center; gap: 5px; padding: 2px 9px; border-radius: 11px;
+            font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; }
+.huy-hieu .bieu-tuong { font-size: 11px; }
+.huy-hieu.CAO { background: var(--tt-tot); }
+.huy-hieu.TRUNG_BINH { background: var(--tt-nhac); color: #0b0b0b; }
+.huy-hieu.THAP { background: var(--tt-nang); color: #0b0b0b; }
+.huy-hieu.KHONG_QUET_DUOC { background: var(--tt-nguy); }
+.huy-hieu.trong { background: var(--muc-mo); }
+
+/* --------------------------------------------------------------- banners */
+.bang-tin-cay { border: 1px solid var(--vien); border-left: 4px solid var(--muc-mo); border-radius: 6px;
+                padding: 10px 12px; background: var(--nen-the); }
+.bang-tin-cay.CAO { border-left-color: var(--tt-tot); }
+.bang-tin-cay.TRUNG_BINH { border-left-color: var(--tt-nhac); }
+.bang-tin-cay.THAP { border-left-color: var(--tt-nang); }
+.bang-tin-cay.KHONG_QUET_DUOC { border-left-color: var(--tt-nguy); }
+.canh-bao { display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: 6px;
+            font-size: 12px; margin-top: 6px; border: 1px solid var(--vien); }
+.canh-bao .bieu-tuong { flex: none; font-size: 13px; line-height: 1.2; }
+.canh-bao.nang { border-left: 3px solid var(--tt-nguy); }
+.canh-bao.vua  { border-left: 3px solid var(--tt-nhac); }
+.canh-bao.nhe  { border-left: 3px solid var(--muc-mo); }
+
+/* ---------------------------------------------------------------- tables */
+.khung-bang { overflow: auto; border: 1px solid var(--vien); border-radius: 8px; max-height: 62vh; }
+table { border-collapse: collapse; width: 100%; font-size: 12px; }
+th, td { padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--duong-luoi); white-space: nowrap; }
+th { position: sticky; top: 0; background: var(--nen-the); z-index: 2; font-weight: 650; cursor: pointer; user-select: none; }
+th:hover { background: var(--nen-hover); }
+th .mui { color: var(--muc-mo); font-size: 10px; }
+td.so, th.so { text-align: right; font-variant-numeric: tabular-nums; }
+td.trong { color: var(--muc-mo); font-style: italic; }
+tbody tr:hover { background: var(--nen-hover); }
+td.ten { max-width: 320px; overflow: hidden; text-overflow: ellipsis; }
+a { color: var(--chuoi-dam); }
+
+/* ---------------------------------------------------------------- charts */
+.khung-bieu-do { position: relative; }
+svg.bieu-do { display: block; width: 100%; overflow: visible; }
+svg.bieu-do text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.nhan-truc { font-size: 10px; fill: var(--muc-mo); font-variant-numeric: tabular-nums; }
+.nhan-nhom { font-size: 11px; fill: var(--muc-phu); }
+.nhan-tri  { font-size: 11px; fill: var(--muc-phu); font-variant-numeric: tabular-nums; }
+.luoi { stroke: var(--duong-luoi); stroke-width: 1; }
+.truc { stroke: var(--duong-truc); stroke-width: 1; }
+.chu-thich {
+  position: absolute; pointer-events: none; z-index: 30; background: var(--nen-the);
+  border: 1px solid var(--duong-truc); border-radius: 6px; padding: 7px 9px; font-size: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.16); display: none; max-width: 260px;
+}
+.chu-thich b { display: block; margin-bottom: 3px; }
+.chu-thich .d { color: var(--muc-phu); font-variant-numeric: tabular-nums; }
+
+/* ------------------------------------------------------------------ misc */
+.trang-thai { font-size: 12px; color: var(--muc-phu); min-height: 18px; }
+.mo-dan { opacity: .45; transition: opacity .15s; }   /* hold the old render on refetch */
+.trong-rong { padding: 28px 14px; text-align: center; color: var(--muc-phu); }
+.an { display: none !important; }
+.chip { display: inline-block; background: var(--nen-hover); border: 1px solid var(--vien);
+        border-radius: 10px; padding: 1px 8px; font-size: 11px; color: var(--muc-phu); }
+code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; color: var(--muc-phu); }
+</style>

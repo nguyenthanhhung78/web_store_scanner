@@ -116,6 +116,17 @@ window.onerror = function (m, s, l) {
 };
 </script>
 `;
-html = html.replace('<body>', '<body>' + stub);
+// Dữ liệu trong bản xem trước là BỊA để thử giao diện. Cả công cụ này được xây trên nguyên
+// tắc không bao giờ nói dối về nguồn gốc số liệu, nên bản xem trước phải tự khai điều đó ở
+// chỗ không ai bỏ sót được.
+const bangCanhBao = `
+<div style="position:sticky;top:0;z-index:100;background:#d03b3b;color:#fff;padding:10px 16px;
+            font:600 13px/1.45 system-ui,-apple-system,'Segoe UI',sans-serif">
+  ⚠ BẢN XEM TRƯỚC GIAO DIỆN — TOÀN BỘ SỐ LIỆU TRONG TRANG NÀY LÀ BỊA.
+  <span style="font-weight:400">Các cửa hàng, giá và kết luận dưới đây được sinh ra để thử giao diện,
+  không phải dữ liệu quét thật. Đừng dùng bất kỳ con số nào ở đây để ra quyết định.
+  Bản thật chạy trong Google Sheet của bạn.</span>
+</div>`;
+html = html.replace('<body>', '<body>' + bangCanhBao + stub);
 fs.writeFileSync(OUT, html);
 console.log('Đã dựng bản xem trước: ' + OUT + '\nMở tệp này bằng trình duyệt để xem giao diện.');

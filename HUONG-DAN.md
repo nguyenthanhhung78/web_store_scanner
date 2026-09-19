@@ -20,52 +20,74 @@ rồi **nói thật** phần dữ liệu đó đáng tin tới đâu.
 
 ---
 
-## 2. Cài đặt (làm một lần, khoảng 15 phút)
+## 2. Cài đặt (làm một lần, khoảng 10 phút)
 
-### Cách A — chép tay (không cần cài gì trên máy)
+> **Chưa cài thì chưa có gì để mở.** Mã nguồn nằm trên GitHub; bảng điều khiển chỉ xuất
+> hiện sau khi bạn dán mã vào một Google Sheet của chính mình. Không có đường link sẵn để
+> bấm vào.
 
+Bạn chỉ phải dán **6 tệp**, tất cả nằm sẵn trong thư mục **`dist/`** của kho mã.
+
+### Bước 1 — Tạo Sheet và mở Apps Script
 1. Tạo một Google Sheet mới, đặt tên ví dụ `Quét cửa hàng — Durahome`.
-2. Trong Sheet: **Tiện ích mở rộng → Apps Script**.
-3. Trong trình soạn thảo Apps Script, bấm ⚙ **Cài đặt dự án** → tích
-   **"Hiện tệp kê khai appsscript.json trong trình chỉnh sửa"**.
-4. Tạo từng tệp theo đúng tên dưới đây (bấm **+ → Tệp lệnh**), rồi chép nội dung từ thư mục
-   `src/` của kho mã vào. **Giữ đúng thứ tự tên tệp**, vì Apps Script nạp theo thứ tự đó:
+2. Menu **Tiện ích mở rộng → Apps Script**. Một tab mới mở ra, đó là trình soạn thảo.
+3. Bấm ⚙ **Cài đặt dự án** (bên trái) → tích **“Hiện tệp kê khai appsscript.json trong
+   trình chỉnh sửa”**. Quay lại mục **Trình chỉnh sửa** (biểu tượng `< >`).
 
-   | Tệp | Vai trò |
-   |---|---|
-   | `00_MENU` | 4 nút bấm không cần tham số — **bắt đầu ở đây** |
-   | `01_CAU_HINH` | tên bảng, tên cột, cài đặt mặc định |
-   | `02_URL` | chuẩn hoá và phân loại địa chỉ |
-   | `03_SO` | đọc số tiền kiểu Việt Nam |
-   | `04_ROBOTS` | đọc robots.txt |
-   | `05_MANG_LUOI` | **nơi duy nhất gọi mạng** |
-   | `06_HTML` | đọc HTML (không chạm mạng) |
-   | `07_BOC_TACH` | bóc tách sản phẩm cho từng bậc |
-   | `08_KET_LUAN` | tính kết luận từ số đo |
-   | `09_THANG` | thang dò 6 bậc |
-   | `10_GHI_BANG` | **nơi duy nhất ghi bảng** |
-   | `11_QUET` | điều phối, lưu vị trí, chạy tiếp |
-   | `12_THAY_DOI` | dựng bảng so sánh |
-   | `13_GIAO_DIEN` | phần máy chủ của thanh quét nhanh |
-   | `14_TU_KIEM_TRA` | bảng tự kiểm tra |
-   | `15_TRUY_VAN` | lọc, sắp xếp, gom nhóm, thống kê |
-   | `16_BAO_CAO` | 5 loại báo cáo + lớp cảnh báo |
-   | `17_API_GIAO_DIEN` | các hàm bảng điều khiển gọi |
-   | `BangQuet` | **tệp HTML** (bấm + → HTML), chép từ `src/BangQuet.html` |
-   | `Bang` | **tệp HTML** — trang bảng điều khiển |
-   | `Bang_CSS` | **tệp HTML** — màu sắc, kiểu chữ |
-   | `Bang_JS` | **tệp HTML** — phần chạy trong trình duyệt |
-   | `appsscript.json` | chép đè nội dung từ `src/appsscript.json` |
+### Bước 2 — Dán 6 tệp
 
-5. Chọn hàm `CHAN_DOAN` trên thanh công cụ rồi bấm ▶. Google sẽ hỏi quyền — chấp nhận.
-   Kết quả in ra ở **Nhật ký thực thi**. Nếu dòng "Tự kiểm tra" báo đủ số mục đạt thì cài đặt xong.
-6. Quay lại Google Sheet, tải lại trang. Trên thanh menu sẽ có mục **Quét cửa hàng** →
-   **Mở bảng điều khiển**. Không cần triển khai ứng dụng web: bảng điều khiển mở thẳng
-   từ bảng tính.
-7. Mở bảng `CAI_DAT`, sửa dòng `user_agent`: thay `lien-he@durahome.vn` bằng **email liên hệ
-   thật của bạn**. Đây là phép lịch sự tối thiểu: chủ website bị quét phải biết liên hệ với ai.
+Mở thư mục `dist/` trên GitHub, mở từng tệp, bấm nút **Copy raw file**, rồi dán vào
+Apps Script theo bảng sau:
 
-### Cách B — dùng clasp (cho người quen dòng lệnh)
+| # | Tệp trong `dist/` | Trong Apps Script bấm | Đặt tên là | Ghi chú |
+|---|---|---|---|---|
+| 1 | `appsscript.json` | mở tệp `appsscript.json` có sẵn | (đã có sẵn) | **xoá hết** nội dung cũ rồi dán đè |
+| 2 | `TAT_CA.gs` | mở tệp `Code.gs` có sẵn | đổi tên thành `TAT_CA` | **xoá hết** nội dung cũ rồi dán đè |
+| 3 | `Bang.html` | **+ → HTML** | `Bang` | |
+| 4 | `Bang_CSS.html` | **+ → HTML** | `Bang_CSS` | |
+| 5 | `Bang_JS.html` | **+ → HTML** | `Bang_JS` | |
+| 6 | `BangQuet.html` | **+ → HTML** | `BangQuet` | |
+
+**Lưu ý về tên tệp HTML:** Apps Script tự thêm đuôi `.html`, nên khi nó hỏi tên bạn gõ
+`Bang`, **không** gõ `Bang.html`. Gõ sai tên thì giao diện sẽ báo lỗi “file not found”.
+
+Bấm 💾 **Lưu dự án**.
+
+### Bước 3 — Cấp quyền một lần
+1. Trên thanh công cụ, ô chọn hàm → chọn **`CHAN_DOAN`** → bấm ▶ **Chạy**.
+2. Google hỏi quyền: **Xem lại quyền → chọn tài khoản → Nâng cao → Chuyển đến … (không an
+   toàn) → Cho phép**. (Cảnh báo này xuất hiện với mọi script tự viết chưa qua thẩm định
+   của Google; đây là mã của chính bạn.)
+3. Mở **Nhật ký thực thi** ở dưới. Nếu thấy dòng `Tự kiểm tra: 33/33 mục đạt` là xong.
+
+### Bước 4 — Mở bảng điều khiển
+1. Quay lại tab **Google Sheet**, **tải lại trang (F5)**. Chờ vài giây.
+2. Trên thanh menu xuất hiện mục mới: **Quét cửa hàng**.
+3. **Quét cửa hàng → Mở bảng điều khiển.**
+
+Cửa sổ mở ra chính là 4 thẻ: **Quét · Dữ liệu · Báo cáo · Lần quét**.
+
+### Không thấy menu “Quét cửa hàng”?
+
+| Hiện tượng | Nguyên nhân hay gặp | Cách xử lý |
+|---|---|---|
+| Không có menu sau khi lưu | Chưa tải lại Sheet | Bấm F5 trên tab Google Sheet, chờ 5–10 giây |
+| Vẫn không có | Chưa chạy hàm nào nên chưa cấp quyền | Làm lại Bước 3 |
+| Menu có, bấm vào thì báo lỗi `file not found` | Tên tệp HTML sai (gõ `Bang.html` thay vì `Bang`) | Đổi tên tệp trong Apps Script |
+| Hộp thoại mở ra nhưng trắng trơn | Thiếu một trong 3 tệp `Bang`, `Bang_CSS`, `Bang_JS` | Kiểm đủ 6 tệp ở Bước 2 |
+| Báo lỗi quyền khi bấm nút | Chưa cấp đủ quyền | Chạy lại `CHAN_DOAN` rồi bấm Cho phép |
+| Script gắn vào Sheet khác với Sheet đang mở | Mở Apps Script từ Drive chứ không từ Sheet | Luôn mở bằng **Tiện ích mở rộng → Apps Script** từ chính Sheet đó |
+
+Nếu vẫn kẹt: chạy hàm **`CHAN_DOAN`** trong trình soạn thảo và đọc **Nhật ký thực thi** —
+nó nói rõ thiếu bảng nào, cài đặt nào sai, có lần quét nào đang dở.
+
+### Muốn xem giao diện TRƯỚC khi cài?
+
+Trong kho mã chạy `npm run xem-truoc` rồi mở tệp `xem_truoc.html` bằng trình duyệt. Nó dựng
+đúng giao diện thật trên **dữ liệu bịa**, không cần Google, không cần cài gì. Trang có một
+dải đỏ nhắc rằng mọi con số trong đó là giả.
+
+### Cách khác — dùng clasp (cho người quen dòng lệnh)
 
 ```bash
 npm i -g @google/clasp
@@ -73,6 +95,7 @@ clasp login
 clasp create --type sheets --title "Quét cửa hàng — Durahome" --rootDir src
 clasp push
 ```
+Cách này đẩy thẳng từ `src/` (18 tệp lẻ), không cần bản gộp trong `dist/`.
 
 ---
 
@@ -291,8 +314,9 @@ thập phân theo đúng hợp đồng của API. Hai bộ đọc tách bạch, 
 ## 11. Kiểm thử (cho người bảo trì)
 
 ```bash
-npm test          # 292 mục, không gọi mạng một lần nào
+npm test          # 302 mục, không gọi mạng một lần nào
 npm run xem-truoc # dựng xem_truoc.html: xem giao diện bằng trình duyệt thường, không cần Google
+npm run dong-goi  # dựng lại dist/ (bản 6 tệp để dán vào Apps Script)
 ```
 
 Trong Apps Script, chạy `CHAN_DOAN` để kiểm tra nhanh ngay trên Google: nó chạy lại bảng số
@@ -302,6 +326,8 @@ tiếng Việt và bảng phân loại URL, kiểm tra các bảng và cài đ�
 `test/05_dot_bien.test.js`** trước khi dùng.
 **Nếu sửa giao diện** thì chạy `npm run xem-truoc` rồi mở tệp bằng trình duyệt — nhanh hơn
 nhiều so với dán lại vào Apps Script để thử.
+**Sửa bất cứ thứ gì trong `src/` thì phải chạy `npm run dong-goi` và commit lại `dist/`**,
+vì `dist/` mới là thứ người dùng dán vào Apps Script. Bộ kiểm thử sẽ báo đỏ nếu bạn quên.
 
 ---
 

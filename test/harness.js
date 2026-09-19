@@ -157,10 +157,16 @@ function taoMoiTruong(tuyChon = {}) {
   };
   const ctx = vm.createContext(sandbox);
 
-  const tep = fs.readdirSync(THU_MUC_SRC).filter(f => f.endsWith('.js')).sort();
-  for (const f of tep) {
-    const ma = fs.readFileSync(path.join(THU_MUC_SRC, f), 'utf8');
-    vm.runInContext(ma, ctx, { filename: 'src/' + f });
+  if (tuyChon.maGop) {
+    // Nạp bản đã đóng gói (dist/TAT_CA.gs) thay cho từng tệp trong src/,
+    // để chứng minh bản gộp chạy y hệt bản gốc.
+    vm.runInContext(tuyChon.maGop, ctx, { filename: 'dist/TAT_CA.gs' });
+  } else {
+    const tep = fs.readdirSync(THU_MUC_SRC).filter(f => f.endsWith('.js')).sort();
+    for (const f of tep) {
+      const ma = fs.readFileSync(path.join(THU_MUC_SRC, f), 'utf8');
+      vm.runInContext(ma, ctx, { filename: 'src/' + f });
+    }
   }
 
   return {

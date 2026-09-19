@@ -5,11 +5,13 @@ chạy, lấy dữ liệu sản phẩm, ghi vào Google Sheets, và trả về *
 mức độ đáng tin của dữ liệu đó.
 
 - 📘 **[HUONG-DAN.md](HUONG-DAN.md)** — cài đặt, cách quét, cách đọc kết luận. **Bắt đầu ở đây.**
+- 📦 **[`dist/`](dist/)** — 6 tệp để dán vào Apps Script (đã gộp sẵn). Cài đặt ~10 phút, xem mục 2 của hướng dẫn.
 - 🕳 **[DIEM-MU.md](DIEM-MU.md)** — những chỗ công cụ nói không đủ. Đọc trước khi ra quyết định giá.
 
 ```bash
-npm test          # 292 mục kiểm thử, không gọi mạng lần nào
+npm test          # 302 mục kiểm thử, không gọi mạng lần nào
 npm run xem-truoc # dựng xem_truoc.html để xem giao diện bằng trình duyệt thường
+npm run dong-goi  # dựng lại dist/ sau khi sửa src/
 ```
 
 ---
@@ -50,5 +52,6 @@ order. Two boundaries are load-bearing and enforced by `test/08_kien_truc.test.j
 | `src/BangQuet.html` | quick-scan sidebar (Vietnamese) |
 | `src/Bang*.html` | the dashboard: page, stylesheet, client script |
 | `tools/xem_truoc.js` | renders the dashboard to a plain HTML file for local inspection |
+| `tools/dong_goi.js` | bundles the 18 source files into `dist/TAT_CA.gs` so installing is 6 pastes |
 
 All operator-facing strings are Vietnamese; code and comments are English.
