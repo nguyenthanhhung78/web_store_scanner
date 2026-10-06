@@ -84,6 +84,12 @@ function taoBangTinh(nhatKyGhi) {
 
 /* ------------------------------------------------------------------ the sandbox */
 
+/**
+ * tuyChon:
+ *   maGop      — nạp dist/TAT_CA.gs thay cho từng tệp src/
+ *   ungDungMang— thay UrlFetchApp giả bằng một bản thật (xem tools/quet_that.js)
+ *   dongHoThat — dùng đồng hồ thật và sleep thật, thay cho đồng hồ giả
+ */
 function taoMoiTruong(tuyChon = {}) {
   const nhatKyGhi = [];
   const bangTinh = taoBangTinh(nhatKyGhi);
@@ -106,12 +112,16 @@ function taoMoiTruong(tuyChon = {}) {
     return { code: 404, body: 'Not found' };
   }
 
+  function nguThat(ms) {
+    if (ms > 0) Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+  }
+
   const sandbox = {
     console,
-    Date: NgayGia,
+    Date: tuyChon.dongHoThat ? Date : NgayGia,
     Logger: { log: (...a) => { if (tuyChon.onLog) tuyChon.onLog(a.join(' ')); } },
     Utilities: {
-      sleep(ms) { dongHo.lech += ms; },
+      sleep(ms) { if (tuyChon.dongHoThat) nguThat(ms); else dongHo.lech += ms; },
       formatDate(d, tz, fmt) {
         const iso = new Date(d.getTime() + 7 * 3600 * 1000).toISOString();
         return iso.replace('T', ' ').substring(0, 19);
@@ -140,7 +150,19 @@ function taoMoiTruong(tuyChon = {}) {
       createHtmlOutputFromFile: () => ({ setTitle: () => ({ setWidth: () => ({}) }) }),
       createTemplateFromFile: () => ({ evaluate: () => ({ setTitle: () => ({ addMetaTag: () => ({}) }) }) })
     },
-    UrlFetchApp: {
+    UrlFetchApp: tuyChon.ungDungMang ? {
+      // Bọc bản mạng thật để vẫn ghi được nhật ký gọi (dùng cho kiểm thử và cho báo cáo).
+      fetch(url, opt) {
+        try {
+          const tl = tuyChon.ungDungMang.fetch(url, opt);
+          nhatKyGoi.push({ url, opt, code: tl.getResponseCode() });
+          return tl;
+        } catch (e) {
+          nhatKyGoi.push({ url, opt, code: 0, loi: String(e && e.message ? e.message : e) });
+          throw e;
+        }
+      }
+    } : {
       fetch(url, opt) {
         dongHo.lech += 300;                       // pretend the network took 300ms
         const tl = traLoiCho(url);

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node test/run.js",
     "xem-truoc": "node tools/xem_truoc.js",
-    "dong-goi": "node tools/dong_goi.js"
+    "dong-goi": "node tools/dong_goi.js",
+    "kiem-that": "node test/kiem_that.js"
   },
   "license": "UNLICENSED",
   "devDependencies": {

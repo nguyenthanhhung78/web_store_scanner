@@ -2,3 +2,4 @@ node_modules/
 .clasp.json
 *.log
 xem_truoc.html
+ket_qua_*.csv

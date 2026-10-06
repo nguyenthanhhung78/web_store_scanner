@@ -232,6 +232,59 @@ nhom('Dán link danh mục nhưng chỉ đọc được cả cửa hàng thì ph
   });
 });
 
+nhom('Chuyển hướng: phải lấy ĐỊA CHỈ CUỐI làm địa chỉ của lần quét', () => {
+  const env = taoMoiTruong();
+  env.dinhTuyen(/robots\.txt$/, { code: 404, body: '' });
+  env.dinhTuyen(/^https:\/\/cu\.vn\/tat-ca$/,
+    { code: 301, body: '', headers: { Location: 'https://moi.vn/collections/all' } });
+  env.dinhTuyen(/moi\.vn\/collections\/all\/products\.json\?limit=250&page=1$/,
+    { code: 200, body: docFixture('bac1_shopify_products.json'), kieu: JSON_KIEU });
+  env.dinhTuyen(/products\.json/, { code: 200, body: '{"products":[]}', kieu: JSON_KIEU });
+  env.dinhTuyen(/^https:\/\/moi\.vn\/collections\/all$/, { code: 200, body: docFixture('trang_chu_shopify.html') });
+  const kq = env.g.batDauQuet('https://cu.vn/tat-ca', '');
+
+  kiemTra('địa chỉ, tên miền và loại URL đều cập nhật theo đích đến', () => {
+    bang(kq.tt.url, 'https://moi.vn/collections/all');
+    bang(kq.tt.host, 'moi.vn');
+    bang(kq.tt.loaiUrl, 'CATEGORY', 'phải phân loại lại theo địa chỉ cuối');
+  });
+  kiemTra('bậc 1 gọi endpoint của địa chỉ CUỐI, không phải địa chỉ đã nhập', () => {
+    that(env.nhatKyGoi.some(x => x.url === 'https://moi.vn/collections/all/products.json?limit=250&page=1'),
+      JSON.stringify(env.nhatKyGoi.map(x => x.url)));
+    bang(kq.tt.bacDung, 'BAC_1_PRODUCTS_JSON');
+    bang(kq.ketLuan.ketLuan, 'CAO');
+  });
+  kiemTra('dòng ghi xuống mang tên miền đích, và sổ ghi lại việc chuyển hướng', () => {
+    bang(env.docBang('SAN_PHAM')[0].ten_mien, 'moi.vn');
+    that(String(env.docBang('LAN_QUET')[0].ly_do).indexOf('Chuyển hướng') > 0, env.docBang('LAN_QUET')[0].ly_do);
+  });
+  kiemTra('bước chuyển hướng cũng phải chờ đủ độ trễ lịch sự', () => {
+    // Độ trễ tính theo TỪNG tên miền, nên lần gọi đầu tới mỗi tên miền không phải chờ.
+    // Ở đây có 2 tên miền (cu.vn rồi moi.vn), nên số lần phải chờ = số lượt gọi − 2.
+    const soHost = new Set(env.nhatKyGoi.map(x => x.url.split('/')[2])).size;
+    bang(soHost, 2);
+    that(env.dongHo.lech >= 1500 * (env.nhatKyGoi.length - soHost),
+      env.nhatKyGoi.length + ' lượt gọi trên ' + soHost + ' tên miền, chỉ chờ ' + env.dongHo.lech + 'ms');
+  });
+});
+
+nhom('Chuyển hướng sang sàn không quét được thì dừng ngay', () => {
+  const env = taoMoiTruong();
+  env.dinhTuyen(/robots\.txt$/, { code: 404, body: '' });
+  env.dinhTuyen(/^https:\/\/rutgon\.vn\/abc$/,
+    { code: 302, body: '', headers: { Location: 'https://shopee.vn/shop/999' } });
+  env.dinhTuyen(/.*/, { code: 200, body: '<html><body>không bao giờ tới đây</body></html>' });
+  const kq = env.g.batDauQuet('https://rutgon.vn/abc', '');
+
+  kiemTra('kết luận KHONG_QUET_DUOC và nêu đường đi hợp lệ', () => {
+    bang(kq.ketLuan.ketLuan, 'KHONG_QUET_DUOC');
+    const ly = String(env.docBang('LAN_QUET')[0].ly_do);
+    that(ly.indexOf('Shopee') > 0, ly);
+    that(ly.indexOf('Seller') > 0 || ly.indexOf('API') > 0, ly);
+  });
+  kiemTra('không ghi dòng sản phẩm nào', () => bang(env.docBang('SAN_PHAM').length, 0));
+});
+
 nhom('404 khi dò thang không được tính là lỗi tên miền', () => {
   const env = taoMoiTruong();
   env.dinhTuyen(/robots\.txt$/, { code: 404, body: '' });
@@ -261,6 +314,27 @@ nhom('Lỗi máy chủ 5xx liên tiếp thì mới dừng tên miền', () => {
   });
   kiemTra('không gọi mãi: tổng số lần gọi có giới hạn', () => {
     that(env.nhatKyGoi.length <= 6, 'gọi ' + env.nhatKyGoi.length + ' lần');
+  });
+});
+
+nhom('Không khẳng định điều chưa đo được', () => {
+  const env = taoMoiTruong();
+  // robots.txt lỗi máy chủ => theo RFC 9309 là không được quét gì cả.
+  env.dinhTuyen(/robots\.txt$/, { code: 503, body: 'bảo trì' });
+  env.dinhTuyen(/.*/, { code: 200, body: docFixture('trang_chu_shopify.html') });
+  const kq = env.g.batDauQuet('https://khongbiet.vn', '');
+  const ly = String(env.docBang('LAN_QUET')[0].ly_do);
+
+  kiemTra('KHÔNG được kết luận "không phải WordPress" khi chưa hỏi được /wp-json/', () => {
+    that(ly.indexOf('Không phải WordPress') < 0, 'khẳng định điều chưa đo: ' + ly);
+    that(ly.indexOf('Chưa biết có phải WordPress') > 0, ly);
+  });
+  kiemTra('lần gọi bị chặn không bị tính vào trần số trang', () => {
+    bang(kq.tt.soTrangDaLay, 0, 'không gọi ra mạng được lần nào thì không tiêu trang nào');
+  });
+  kiemTra('kết luận KHONG_QUET_DUOC và nêu đúng lý do robots.txt', () => {
+    bang(kq.ketLuan.ketLuan, 'KHONG_QUET_DUOC');
+    that(ly.indexOf('robots.txt') > 0, ly);
   });
 });
 

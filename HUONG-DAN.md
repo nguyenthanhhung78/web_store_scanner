@@ -314,10 +314,21 @@ thập phân theo đúng hợp đồng của API. Hai bộ đọc tách bạch, 
 ## 11. Kiểm thử (cho người bảo trì)
 
 ```bash
-npm test          # 302 mục, không gọi mạng một lần nào
+npm test          # 311 mục, không gọi mạng một lần nào
+npm run kiem-that # kiểm thử qua HTTP THẬT trên 127.0.0.1 (~12 giây)
 npm run xem-truoc # dựng xem_truoc.html: xem giao diện bằng trình duyệt thường, không cần Google
 npm run dong-goi  # dựng lại dist/ (bản 6 tệp để dán vào Apps Script)
 ```
+
+### Thử một địa chỉ thật mà chưa cần cài vào Google Sheet
+
+```bash
+node tools/quet_that.js "https://tencuahang.vn/collections/all" --ua "TenCuaBan/1.0 (+email@that.cua-ban)"
+```
+
+Chạy đúng mã của công cụ nhưng gọi mạng thật, in kết luận ra màn hình và ghi một tệp CSV.
+Dùng để thử nhanh một đối thủ mới, hoặc để kiểm chứng khi nghi công cụ đọc sai.
+**Nhớ đặt `--ua` thành email liên hệ thật của bạn** trước khi quét website của người khác.
 
 Trong Apps Script, chạy `CHAN_DOAN` để kiểm tra nhanh ngay trên Google: nó chạy lại bảng số
 tiếng Việt và bảng phân loại URL, kiểm tra các bảng và cài đặt, và báo nếu có lần quét đang dở.

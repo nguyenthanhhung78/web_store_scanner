@@ -9,7 +9,8 @@ mức độ đáng tin của dữ liệu đó.
 - 🕳 **[DIEM-MU.md](DIEM-MU.md)** — những chỗ công cụ nói không đủ. Đọc trước khi ra quyết định giá.
 
 ```bash
-npm test          # 302 mục kiểm thử, không gọi mạng lần nào
+npm test          # 311 mục kiểm thử, không gọi mạng lần nào
+npm run kiem-that # kiểm thử tích hợp qua HTTP thật trên 127.0.0.1
 npm run xem-truoc # dựng xem_truoc.html để xem giao diện bằng trình duyệt thường
 npm run dong-goi  # dựng lại dist/ sau khi sửa src/
 ```
@@ -53,5 +54,6 @@ order. Two boundaries are load-bearing and enforced by `test/08_kien_truc.test.j
 | `src/Bang*.html` | the dashboard: page, stylesheet, client script |
 | `tools/xem_truoc.js` | renders the dashboard to a plain HTML file for local inspection |
 | `tools/dong_goi.js` | bundles the 18 source files into `dist/TAT_CA.gs` so installing is 6 pastes |
+| `tools/quet_that.js` | runs the real scanner over the real network from the command line |
 
 All operator-facing strings are Vietnamese; code and comments are English.

@@ -107,6 +107,15 @@ function themLyDo(tt, s) {
   if (tt.lyDoThatBai.length > 30) tt.lyDoThatBai.shift();
 }
 
+/**
+ * Chỉ tính những lượt THỰC SỰ gọi ra mạng. Một lần bị robots.txt chặn, bị trần chặn, hay
+ * bị dừng tên miền thì không tốn gì của máy chủ bên kia — tính nó vào trần số trang sẽ
+ * làm lần quét tự hết hạn mức mà chưa gọi ra ngoài lần nào.
+ */
+function demTrangDaLay(tt, tl) {
+  if (tl && (tl.ok || (tl.maTrangThai && tl.maTrangThai > 0))) tt.soTrangDaLay++;
+}
+
 function chamTranTrang(tt, bc) {
   var tran = Number(bc.caiDat.gioi_han_trang) || 20;
   return tt.soTrangDaLay >= tran;
@@ -171,11 +180,22 @@ function buocKhoiDong(tt, bc) {
   }
 
   var tl = layNoiDung(tt.url, { boiCanh: bc, nhan: 'trang-goc' });
-  tt.soTrangDaLay++;
+  demTrangDaLay(tt, tl);
   if (!tl.ok) {
     themLyDo(tt, 'Trang gốc: ' + tl.tuChoi.loai + ' — ' + tl.tuChoi.lyDo);
     tt._html = '';
   } else {
+    // Theo chuyển hướng xong thì phải LẤY ĐỊA CHỈ CUỐI làm địa chỉ của lần quét. Không
+    // làm việc này thì cả thang dò vẫn dò theo địa chỉ cũ: http→https, www→không-www,
+    // hay /cu→/collections/all đều khiến bậc 1 gọi nhầm endpoint và trượt xuống bậc 5.
+    var daDoi = capNhatSauChuyenHuong(tt, tl.urlCuoi);
+    if (daDoi && tt.sanKhongQuetDuoc) {
+      tt.bacDung = BAC.BAC_6_KHONG_QUET_DUOC;
+      tt.giaiDoan = GIAI_DOAN.XONG;
+      themLyDo(tt, 'Sau chuyển hướng thì rơi vào ' + tt.sanKhongQuetDuoc.ten + ': ' +
+                   tt.sanKhongQuetDuoc.lyDo + ' Đường đi hợp lệ: ' + tt.sanKhongQuetDuoc.loiRa);
+      return { hang: [], xong: true, ghiChu: 'Chuyển hướng tới ' + tt.sanKhongQuetDuoc.ten + ' — không quét được.' };
+    }
     tt._html = tl.noiDung;
     tt.nenTang = nhanDienNenTang(tl.noiDung);
     tt.tienTe = nhanDienTienTe(tl.noiDung);
@@ -192,13 +212,32 @@ function buocKhoiDong(tt, bc) {
   };
 }
 
+/**
+ * Nhận địa chỉ cuối sau chuyển hướng: phân loại lại, đổi tên miền và origin theo nó.
+ * @return {boolean} có đổi hay không
+ */
+function capNhatSauChuyenHuong(tt, urlCuoi) {
+  if (!urlCuoi) return false;
+  var ch = chuanHoaUrl(urlCuoi);
+  if (!ch.ok || ch.url === tt.url) return false;
+  var pl = phanLoaiUrl(ch.url);
+  themLyDo(tt, 'Chuyển hướng: ' + tt.url + ' → ' + pl.url + ' (đọc lại loại URL: ' +
+               tt.loaiUrl + ' → ' + pl.loai + '). Mọi bước sau dùng địa chỉ cuối này.');
+  tt.url = pl.url;
+  tt.loaiUrl = pl.loai;
+  tt.host = pl.host;
+  tt.origin = pl.origin;
+  tt.sanKhongQuetDuoc = pl.san ? { ten: pl.san.ten, lyDo: pl.san.lyDo, loiRa: pl.san.loiRa } : null;
+  return true;
+}
+
 function buocBac1(tt, bc) {
   var url = urlBac1(tt);
   if (url === '' || chamTranTrang(tt, bc)) {
     return ketThucBac1(tt, bc, url === '' ? 'Bậc 1 không áp dụng cho loại URL này.' : 'Chạm trần số trang ở bậc 1.');
   }
   var kq = layJson(url, { boiCanh: bc, nhan: 'bac1' });
-  tt.soTrangDaLay++;
+  demTrangDaLay(tt, kq);
   if (!kq.ok) {
     themLyDo(tt, 'Bậc 1 (' + url + '): ' + (kq.tuChoi ? kq.tuChoi.lyDo : 'không đọc được JSON') +
                  (kq.maTrangThai ? ' [HTTP ' + kq.maTrangThai + ']' : ''));
@@ -233,20 +272,27 @@ function buocBac2(tt, bc) {
   if (chamTranTrang(tt, bc)) return ketThucBac2(tt, bc, 'Chạm trần số trang ở bậc 2.');
   var url = tt.origin + '/wp-json/wc/store/v1/products?per_page=100&page=' + tt.trang;
   var kq = layJson(url, { boiCanh: bc, nhan: 'bac2' });
-  tt.soTrangDaLay++;
+  demTrangDaLay(tt, kq);
   if (!kq.ok && tt.trang === 1) {
     // Older stores expose the Store API without the version segment.
     var url0 = tt.origin + '/wp-json/wc/store/products?per_page=100&page=1';
     kq = layJson(url0, { boiCanh: bc, nhan: 'bac2-cu' });
-    tt.soTrangDaLay++;
+    demTrangDaLay(tt, kq);
   }
   if (!kq.ok) {
     themLyDo(tt, 'Bậc 2: ' + (kq.tuChoi ? kq.tuChoi.lyDo : 'không đọc được JSON') + (kq.maTrangThai ? ' [HTTP ' + kq.maTrangThai + ']' : ''));
     if (tt.trang === 1 && !chamTranTrang(tt, bc)) {
       // Confirm whether this is even WordPress, so the log says something useful.
       var wp = layJson(tt.origin + '/wp-json/', { boiCanh: bc, nhan: 'bac2-wp' });
-      tt.soTrangDaLay++;
-      themLyDo(tt, wp.ok ? 'Là WordPress nhưng không bật WooCommerce Store API.' : 'Không phải WordPress (/wp-json/ không trả JSON).');
+      demTrangDaLay(tt, wp);
+      // Chỉ được kết luận "không phải WordPress" khi THỰC SỰ hỏi được máy chủ. Nếu lần
+      // gọi bị robots.txt hay tường chặn chặn lại thì ta không biết gì cả, và phải nói vậy.
+      var cauWp;
+      if (wp.ok) cauWp = 'Là WordPress nhưng không bật WooCommerce Store API.';
+      else if (wp.maTrangThai >= 400) cauWp = 'Không phải WordPress (/wp-json/ trả HTTP ' + wp.maTrangThai + ').';
+      else cauWp = 'Chưa biết có phải WordPress hay không — không hỏi được /wp-json/: ' +
+                   (wp.tuChoi ? wp.tuChoi.lyDo : 'không gọi được');
+      themLyDo(tt, cauWp);
     }
     return ketThucBac2(tt, bc, 'Bậc 2 không dùng được.');
   }
@@ -300,7 +346,7 @@ function buocDocSitemap(tt, bc) {
   }
   var url = tt.sitemapChoDoc.shift();
   var tl = layNoiDung(url, { boiCanh: bc, nhan: 'sitemap' });
-  tt.soTrangDaLay++;
+  demTrangDaLay(tt, tl);
   if (!tl.ok) {
     themLyDo(tt, 'Sitemap ' + url + ': ' + tl.tuChoi.lyDo);
     return { hang: [], xong: false, ghiChu: 'Không đọc được ' + url };
@@ -340,7 +386,7 @@ function buocDocTrangSanPham(tt, bc) {
   var url = tt.spChoDoc[tt.viTriSp];
   tt.viTriSp++;
   var tl = layNoiDung(url, { boiCanh: bc, nhan: 'bac3-trang' });
-  tt.soTrangDaLay++;
+  demTrangDaLay(tt, tl);
   if (!tl.ok) {
     themLyDo(tt, 'Trang sản phẩm ' + url + ': ' + tl.tuChoi.lyDo);
     return { hang: [], xong: false, ghiChu: 'Bỏ qua 1 trang không đọc được.' };
@@ -372,7 +418,7 @@ function buocBac4(tt, bc) {
       return { hang: [], xong: true, ghiChu: 'Chạm trần số trang.' };
     }
     var tl = layNoiDung(tt.url, { boiCanh: bc, nhan: 'bac4' });
-    tt.soTrangDaLay++;
+    demTrangDaLay(tt, tl);
     if (!tl.ok) {
       themLyDo(tt, 'Bậc 4: ' + tl.tuChoi.lyDo);
       tt.giaiDoan = GIAI_DOAN.XONG;

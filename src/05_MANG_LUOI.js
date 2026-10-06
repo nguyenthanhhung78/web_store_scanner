@@ -138,7 +138,16 @@ function goiMangTho(bc, url, soLanChuyenHuong) {
       if (loc) {
         if (Object.prototype.toString.call(loc) === '[object Array]') loc = loc[loc.length - 1];
         var tiep = ghepUrl(url, loc);
-        if (tiep) return goiMangTho(bc, tiep, lan + 1);
+        if (tiep) {
+          // Một bước chuyển hướng vẫn là một lượt gọi tới máy chủ đó: phải chờ đủ độ trễ
+          // lịch sự và phải tính vào trần lượt gọi, y như mọi lượt khác.
+          var hostTiep = tachUrl(tiep);
+          if (hostTiep) {
+            choLichSu(bc, hostTiep.host, null);
+            bc.demYeuCau[hostTiep.host] = (bc.demYeuCau[hostTiep.host] || 0) + 1;
+          }
+          return goiMangTho(bc, tiep, lan + 1);
+        }
       }
     }
     var kieu = headers['Content-Type'] || headers['content-type'] || '';
